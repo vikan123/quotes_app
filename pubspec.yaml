@@ -45,6 +45,13 @@ dependencies:
   url_launcher_plus:
   share_extend:
   google_fonts:
+  html:
+  shared_preferences:
+  share:
+  flutter_wallpaper_manager:
+  path_provider:
+  provider:
+
 
 dev_dependencies:
   flutter_test:

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart' as parser;
+import 'package:quotes_app/Screen/save_quotes.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -84,11 +85,11 @@ class _QuotesPageState extends State<QuotesPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SavedQuotesPage(),
+                  builder: (context) => SavedQuotesPage(quotes: [],),
                 ),
               );
             },
-            icon: Icon(Icons.bookmark),
+            icon: Icon(Icons.save_alt),
           )
         ],
       ),
@@ -165,39 +166,3 @@ class _QuotesPageState extends State<QuotesPage> {
   }
 }
 
-class SavedQuotesPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Saved Quotes'),
-      ),
-      body: FutureBuilder<List<String>>(
-        future: getSavedQuotes(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No saved quotes'));
-          } else {
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(snapshot.data![index]),
-                );
-              },
-            );
-          }
-        },
-      ),
-    );
-  }
-
-  Future<List<String>> getSavedQuotes() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList('savedQuotes') ?? [];
-  }
-}

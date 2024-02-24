@@ -1,8 +1,8 @@
-List categoryList = [
-  "age",
-  "alone",
-  "amazing",
-  "art",
-  "beauty",
-  "birthday",
+List<String> categories = [
+  "love",
+  "inspirational",
+  "life",
+  "books",
+  "humor",
+  "friendship",
 ];
