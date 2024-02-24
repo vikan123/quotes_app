@@ -1,11 +1,13 @@
 import 'dart:developer';
+import 'dart:math';
+
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:quotes_app/Screen/quotes_screen.dart';
-import 'package:quotes_app/get/home_controller.dart';
+
 
 import 'package:quotes_app/get/save_controller.dart';
 import 'package:quotes_app/utils/category.dart';
@@ -25,13 +27,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   ApiController apiController = Get.put(ApiController());
-  final HomeController homeController = Get.put(HomeController());
+
   final SaveController _favoritesController = Get.put(SaveController());
 
   final QuotesController _quotesController = Get.put(QuotesController());
 
   late AnimationController controller;
   late Animation<Alignment> position;
+
+
 
   @override
   void initState() {
@@ -72,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 Icons.save_alt_outlined,
               ),
             ),
-            Obx(() => PopupMenuButton(
+             PopupMenuButton(
                 itemBuilder: (context) => [
                   // PopupMenuItem 1
                   const PopupMenuItem(
@@ -100,13 +104,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ]),
                   ),
                 ],
-                onSelected: (value) {
-                  if (value == 1) {
-                    homeController.isDark=false as RxBool;
-                  } else if (value == 2) {
-                    homeController.isDark = true as RxBool;
-                  }
-                }))
+
+                )
           ],),
 
       body: Padding(
@@ -129,7 +128,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 QuotesPage(categoryname: category))),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.blue,
+                        color: Colors.primaries[
+                        Random().nextInt(Colors.primaries.length)],
                         borderRadius: BorderRadius.circular(20),
                       ),
                       alignment: Alignment.center,
@@ -174,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     itemCount: allQuotes.length,
                                     itemBuilder: (context, index) {
                                       ApiModal allQuote = allQuotes[index];
-                                      log("[+ ${allQuote.author} -]");
+
                                       return GestureDetector(
                                         onTap: () {
                                           DBHelper.dbHelper.insertQuotes(
@@ -272,3 +272,4 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 }
+

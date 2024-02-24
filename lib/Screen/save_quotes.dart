@@ -79,10 +79,10 @@ class _SavedQuotesPageState extends State<SavedQuotesPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getStringList('savedQuotes') ?? [];
   }
-  Future<void> _deleteQuote(int i) async {
+  Future<void> _deleteQuote(int index) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      widget.quotes.removeAt(i);
+      widget.quotes.remove(index);
     });
     await prefs.setStringList('savedQuotes', quotes);
   }
